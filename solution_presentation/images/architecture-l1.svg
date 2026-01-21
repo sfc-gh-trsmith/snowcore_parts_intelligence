@@ -1,1 +1,152 @@
-<svg id="my-svg" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="flowchart" style="max-width: 2254.28px; background-color: transparent;" viewBox="0 0 2254.28125 145" role="graphics-document document" aria-roledescription="flowchart-v2"><style>#my-svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;fill:#333;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#my-svg .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#my-svg .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#my-svg .error-icon{fill:#552222;}#my-svg .error-text{fill:#552222;stroke:#552222;}#my-svg .edge-thickness-normal{stroke-width:1px;}#my-svg .edge-thickness-thick{stroke-width:3.5px;}#my-svg .edge-pattern-solid{stroke-dasharray:0;}#my-svg .edge-thickness-invisible{stroke-width:0;fill:none;}#my-svg .edge-pattern-dashed{stroke-dasharray:3;}#my-svg .edge-pattern-dotted{stroke-dasharray:2;}#my-svg .marker{fill:#333333;stroke:#333333;}#my-svg .marker.cross{stroke:#333333;}#my-svg svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;}#my-svg p{margin:0;}#my-svg .label{font-family:"trebuchet ms",verdana,arial,sans-serif;color:#333;}#my-svg .cluster-label text{fill:#333;}#my-svg .cluster-label span{color:#333;}#my-svg .cluster-label span p{background-color:transparent;}#my-svg .label text,#my-svg span{fill:#333;color:#333;}#my-svg .node rect,#my-svg .node circle,#my-svg .node ellipse,#my-svg .node polygon,#my-svg .node path{fill:#ECECFF;stroke:#9370DB;stroke-width:1px;}#my-svg .rough-node .label text,#my-svg .node .label text,#my-svg .image-shape .label,#my-svg .icon-shape .label{text-anchor:middle;}#my-svg .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#my-svg .rough-node .label,#my-svg .node .label,#my-svg .image-shape .label,#my-svg .icon-shape .label{text-align:center;}#my-svg .node.clickable{cursor:pointer;}#my-svg .root .anchor path{fill:#333333!important;stroke-width:0;stroke:#333333;}#my-svg .arrowheadPath{fill:#333333;}#my-svg .edgePath .path{stroke:#333333;stroke-width:2.0px;}#my-svg .flowchart-link{stroke:#333333;fill:none;}#my-svg .edgeLabel{background-color:rgba(232,232,232, 0.8);text-align:center;}#my-svg .edgeLabel p{background-color:rgba(232,232,232, 0.8);}#my-svg .edgeLabel rect{opacity:0.5;background-color:rgba(232,232,232, 0.8);fill:rgba(232,232,232, 0.8);}#my-svg .labelBkg{background-color:rgba(232, 232, 232, 0.5);}#my-svg .cluster rect{fill:#ffffde;stroke:#aaaa33;stroke-width:1px;}#my-svg .cluster text{fill:#333;}#my-svg .cluster span{color:#333;}#my-svg div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:12px;background:hsl(80, 100%, 96.2745098039%);border:1px solid #aaaa33;border-radius:2px;pointer-events:none;z-index:100;}#my-svg .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#333;}#my-svg rect.text{fill:none;stroke-width:0;}#my-svg .icon-shape,#my-svg .image-shape{background-color:rgba(232,232,232, 0.8);text-align:center;}#my-svg .icon-shape p,#my-svg .image-shape p{background-color:rgba(232,232,232, 0.8);padding:2px;}#my-svg .icon-shape rect,#my-svg .image-shape rect{opacity:0.5;background-color:rgba(232,232,232, 0.8);fill:rgba(232,232,232, 0.8);}#my-svg .label-icon{display:inline-block;height:1em;overflow:visible;vertical-align:-0.125em;}#my-svg .node .label-icon path{fill:currentColor;stroke:revert;stroke-width:revert;}#my-svg :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g><marker id="my-svg_flowchart-v2-pointEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="my-svg_flowchart-v2-pointStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="4.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 5 L 10 10 L 10 0 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="my-svg_flowchart-v2-circleEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="11" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="my-svg_flowchart-v2-circleStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-1" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="my-svg_flowchart-v2-crossEnd" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="12" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><marker id="my-svg_flowchart-v2-crossStart" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="-1" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><g class="root"><g class="clusters"><g class="cluster" id="snowflake" data-look="classic"><rect style="" x="740.1875" y="10.5" width="670.234375" height="124"/><g class="cluster-label" transform="translate(1005.3125, 10.5)"><foreignObject width="139.984375" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Snowflake Platform</p></span></div></foreignObject></g></g></g><g class="edgePaths"><path d="M927.641,72.5L931.807,72.5C935.974,72.5,944.307,72.5,951.974,72.5C959.641,72.5,966.641,72.5,970.141,72.5L973.641,72.5" id="L_ingest_ml_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_ingest_ml_0" data-points="W3sieCI6OTI3LjY0MDYyNSwieSI6NzIuNX0seyJ4Ijo5NTIuNjQwNjI1LCJ5Ijo3Mi41fSx7IngiOjk3Ny42NDA2MjUsInkiOjcyLjV9XQ==" marker-end="url(#my-svg_flowchart-v2-pointEnd)"/><path d="M1157.516,72.5L1161.682,72.5C1165.849,72.5,1174.182,72.5,1181.849,72.5C1189.516,72.5,1196.516,72.5,1200.016,72.5L1203.516,72.5" id="L_ml_insights_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_ml_insights_0" data-points="W3sieCI6MTE1Ny41MTU2MjUsInkiOjcyLjV9LHsieCI6MTE4Mi41MTU2MjUsInkiOjcyLjV9LHsieCI6MTIwNy41MTU2MjUsInkiOjcyLjV9XQ==" marker-end="url(#my-svg_flowchart-v2-pointEnd)"/><path d="M690.188,72.5L694.354,72.5C698.521,72.5,706.854,72.5,715.188,72.5C723.521,72.5,731.854,72.5,739.521,72.5C747.188,72.5,754.188,72.5,757.688,72.5L761.188,72.5" id="L_sources_ingest_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_sources_ingest_0" data-points="W3sieCI6NjkwLjE4NzUsInkiOjcyLjV9LHsieCI6NzE1LjE4NzUsInkiOjcyLjV9LHsieCI6NzQwLjE4NzUsInkiOjcyLjV9LHsieCI6NzY1LjE4NzUsInkiOjcyLjV9XQ==" marker-end="url(#my-svg_flowchart-v2-pointEnd)"/><path d="M1385.422,72.5L1389.589,72.5C1393.755,72.5,1402.089,72.5,1410.422,72.5C1418.755,72.5,1427.089,72.5,1434.755,72.5C1442.422,72.5,1449.422,72.5,1452.922,72.5L1456.422,72.5" id="L_insights_outcomes_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_insights_outcomes_0" data-points="W3sieCI6MTM4NS40MjE4NzUsInkiOjcyLjV9LHsieCI6MTQxMC40MjE4NzUsInkiOjcyLjV9LHsieCI6MTQzNS40MjE4NzUsInkiOjcyLjV9LHsieCI6MTQ2MC40MjE4NzUsInkiOjcyLjV9XQ==" marker-end="url(#my-svg_flowchart-v2-pointEnd)"/></g><g class="edgeLabels"><g class="edgeLabel"><g class="label" data-id="L_ingest_ml_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_ml_insights_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_sources_ingest_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_insights_outcomes_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="root" transform="translate(1452.421875, 0)"><g class="clusters"><g class="cluster" id="outcomes" data-look="classic"><rect style="" x="8" y="8" width="785.859375" height="129"/><g class="cluster-label" transform="translate(333.4609375, 8)"><foreignObject width="134.9375" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Business Outcomes</p></span></div></foreignObject></g></g></g><g class="edgePaths"/><g class="edgeLabels"/><g class="nodes"><g class="node default" id="flowchart-eng-6" transform="translate(122.03125, 72.5)"><rect class="basic label-container" style="" x="-79.03125" y="-27" width="158.0625" height="54"/><g class="label" style="" transform="translate(-49.03125, -12)"><rect/><foreignObject width="98.0625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Part Matching</p></span></div></foreignObject></g></g><g class="node default" id="flowchart-proc-7" transform="translate(361.1171875, 72.5)"><rect class="basic label-container" style="" x="-110.0546875" y="-27" width="220.109375" height="54"/><g class="label" style="" transform="translate(-80.0546875, -12)"><rect/><foreignObject width="160.109375" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Supplier Consolidation</p></span></div></foreignObject></g></g><g class="node default" id="flowchart-comp-8" transform="translate(640.015625, 72.5)"><rect class="basic label-container" style="" x="-118.84375" y="-27" width="237.6875" height="54"/><g class="label" style="" transform="translate(-88.84375, -12)"><rect/><foreignObject width="177.6875" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Compliance Acceleration</p></span></div></foreignObject></g></g></g></g><g class="root" transform="translate(0, 0)"><g class="clusters"><g class="cluster" id="sources" data-look="classic"><rect style="" x="8" y="8" width="682.1875" height="129"/><g class="cluster-label" transform="translate(294.2890625, 8)"><foreignObject width="109.609375" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Source Systems</p></span></div></foreignObject></g></g></g><g class="edgePaths"/><g class="edgeLabels"/><g class="nodes"><g class="node default" id="flowchart-windchill-0" transform="translate(122.75, 72.5)"><rect class="basic label-container" style="" x="-79.75" y="-27" width="159.5" height="54"/><g class="label" style="" transform="translate(-49.75, -12)"><rect/><foreignObject width="99.5" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Windchill PLM</p></span></div></foreignObject></g></g><g class="node default" id="flowchart-pdm-1" transform="translate(338.3203125, 72.5)"><rect class="basic label-container" style="" x="-85.8203125" y="-27" width="171.640625" height="54"/><g class="label" style="" transform="translate(-55.8203125, -12)"><rect/><foreignObject width="111.640625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>SolidWorks PDM</p></span></div></foreignObject></g></g><g class="node default" id="flowchart-docs-2" transform="translate(564.6640625, 72.5)"><rect class="basic label-container" style="" x="-90.5234375" y="-27" width="181.046875" height="54"/><g class="label" style="" transform="translate(-60.5234375, -12)"><rect/><foreignObject width="121.046875" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Compliance Docs</p></span></div></foreignObject></g></g></g></g><g class="node default" id="flowchart-ingest-3" transform="translate(846.4140625, 72.5)"><rect class="basic label-container" style="" x="-81.2265625" y="-27" width="162.453125" height="54"/><g class="label" style="" transform="translate(-51.2265625, -12)"><rect/><foreignObject width="102.453125" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Data Ingestion</p></span></div></foreignObject></g></g><g class="node default" id="flowchart-ml-4" transform="translate(1067.578125, 72.5)"><rect class="basic label-container" style="" x="-89.9375" y="-27" width="179.875" height="54"/><g class="label" style="" transform="translate(-59.9375, -12)"><rect/><foreignObject width="119.875" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>AI/ML Processing</p></span></div></foreignObject></g></g><g class="node default" id="flowchart-insights-5" transform="translate(1296.46875, 72.5)"><rect class="basic label-container" style="" x="-88.953125" y="-27" width="177.90625" height="54"/><g class="label" style="" transform="translate(-58.953125, -12)"><rect/><foreignObject width="117.90625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Business Insights</p></span></div></foreignObject></g></g></g></g></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="UPIP Architecture - Executive View">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap');
+      .title { font-family: 'Inter', sans-serif; font-size: 32px; font-weight: 700; fill: #FFFFFF; }
+      .subtitle { font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 400; fill: #8A999E; }
+      .pillar-title { font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 700; fill: #FFFFFF; text-anchor: middle; letter-spacing: 1px; }
+      .item-text { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 400; fill: #FFFFFF; text-anchor: middle; }
+      .item-desc { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 400; fill: #8A999E; text-anchor: middle; }
+      .center-brand { font-family: 'Inter', sans-serif; font-size: 24px; font-weight: 700; fill: #29B5E8; text-anchor: middle; }
+    </style>
+    <linearGradient id="snowflakeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#29B5E8;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#11567F;stop-opacity:0.8"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="675" fill="#000000"/>
+  
+  <!-- Title Section -->
+  <text x="60" y="55" class="title">Solution Architecture</text>
+  <text x="60" y="85" class="subtitle">End-to-end data flow from source systems to business outcomes</text>
+  
+  <!-- Source Systems Pillar -->
+  <g transform="translate(60, 130)">
+    <rect x="0" y="0" width="260" height="480" rx="16" fill="#24323D"/>
+    <rect x="0" y="0" width="260" height="50" rx="16" fill="#11567F"/>
+    <rect x="0" y="25" width="260" height="25" fill="#11567F"/>
+    <text x="130" y="35" class="pillar-title">SOURCE SYSTEMS</text>
+    
+    <!-- Items -->
+    <g transform="translate(130, 100)">
+      <rect x="-100" y="0" width="200" height="70" rx="10" fill="#1a2832" stroke="#8A999E" stroke-width="1"/>
+      <text x="0" y="30" class="item-text">Windchill PLM</text>
+      <text x="0" y="50" class="item-desc">Industrial Division</text>
+    </g>
+    
+    <g transform="translate(130, 190)">
+      <rect x="-100" y="0" width="200" height="70" rx="10" fill="#1a2832" stroke="#8A999E" stroke-width="1"/>
+      <text x="0" y="30" class="item-text">SolidWorks PDM</text>
+      <text x="0" y="50" class="item-desc">BioFlux Division</text>
+    </g>
+    
+    <g transform="translate(130, 280)">
+      <rect x="-100" y="0" width="200" height="70" rx="10" fill="#1a2832" stroke="#8A999E" stroke-width="1"/>
+      <text x="0" y="30" class="item-text">Compliance Docs</text>
+      <text x="0" y="50" class="item-desc">FDA, ISO 13485</text>
+    </g>
+    
+    <g transform="translate(130, 370)">
+      <rect x="-100" y="0" width="200" height="70" rx="10" fill="#1a2832" stroke="#8A999E" stroke-width="1"/>
+      <text x="0" y="30" class="item-text">Supplier Data</text>
+      <text x="0" y="50" class="item-desc">ERP Feeds</text>
+    </g>
+  </g>
+  
+  <!-- Flow Arrow 1 -->
+  <g transform="translate(330, 370)">
+    <polygon points="0,0 60,30 0,60" fill="#29B5E8" opacity="0.6"/>
+  </g>
+  
+  <!-- Snowflake Platform Pillar (Center, Larger) -->
+  <g transform="translate(410, 130)">
+    <rect x="0" y="0" width="380" height="480" rx="16" fill="url(#snowflakeGradient)" stroke="#29B5E8" stroke-width="2"/>
+    <rect x="0" y="0" width="380" height="50" rx="16" fill="#29B5E8"/>
+    <rect x="0" y="25" width="380" height="25" fill="#29B5E8"/>
+    
+    <!-- Snowflake logo placeholder -->
+    <text x="190" y="35" class="pillar-title" style="fill: #000000;">SNOWFLAKE PLATFORM</text>
+    
+    <!-- Data Layer -->
+    <g transform="translate(190, 90)">
+      <rect x="-160" y="0" width="320" height="60" rx="10" fill="#0d1f29" stroke="#29B5E8" stroke-width="1"/>
+      <text x="0" y="25" class="item-text">Data Ingestion &amp; Harmonization</text>
+      <text x="0" y="45" class="item-desc">RAW → ATOMIC → DATA_SCIENCE</text>
+    </g>
+    
+    <!-- AI/ML Layer -->
+    <g transform="translate(190, 170)">
+      <rect x="-160" y="0" width="320" height="80" rx="10" fill="#0d1f29" stroke="#71D3DC" stroke-width="1"/>
+      <text x="0" y="30" class="item-text" style="fill: #71D3DC;">Cortex AI Services</text>
+      <text x="0" y="52" class="item-desc">EMBED_TEXT_768 | Cortex Search</text>
+      <text x="0" y="70" class="item-desc">Cortex Analyst | Cortex Agent</text>
+    </g>
+    
+    <!-- Analytics Layer -->
+    <g transform="translate(190, 270)">
+      <rect x="-160" y="0" width="320" height="60" rx="10" fill="#0d1f29" stroke="#29B5E8" stroke-width="1"/>
+      <text x="0" y="25" class="item-text">Business Intelligence</text>
+      <text x="0" y="45" class="item-desc">Similarity Scores | Risk Analytics | KPIs</text>
+    </g>
+    
+    <!-- App Layer -->
+    <g transform="translate(190, 350)">
+      <rect x="-160" y="0" width="320" height="100" rx="10" fill="#0d1f29" stroke="#FF9F36" stroke-width="1"/>
+      <text x="0" y="25" class="item-text" style="fill: #FF9F36;">Streamlit Applications</text>
+      <text x="0" y="50" class="item-desc">Part Matcher | Supply Chain Tower</text>
+      <text x="0" y="70" class="item-desc">Procurement Ops | Sourcing Assistant</text>
+    </g>
+  </g>
+  
+  <!-- Flow Arrow 2 -->
+  <g transform="translate(800, 370)">
+    <polygon points="0,0 60,30 0,60" fill="#29B5E8" opacity="0.6"/>
+  </g>
+  
+  <!-- Business Outcomes Pillar -->
+  <g transform="translate(880, 130)">
+    <rect x="0" y="0" width="260" height="480" rx="16" fill="#24323D"/>
+    <rect x="0" y="0" width="260" height="50" rx="16" fill="#11567F"/>
+    <rect x="0" y="25" width="260" height="25" fill="#11567F"/>
+    <text x="130" y="35" class="pillar-title">BUSINESS OUTCOMES</text>
+    
+    <!-- Items -->
+    <g transform="translate(130, 100)">
+      <rect x="-100" y="0" width="200" height="70" rx="10" fill="#1a2832" stroke="#71D3DC" stroke-width="1"/>
+      <text x="0" y="25" class="item-text" style="fill: #71D3DC;">Part Matching</text>
+      <text x="0" y="45" class="item-desc">30% SKU reduction</text>
+      <text x="0" y="60" class="item-desc">$540K-$960K savings</text>
+    </g>
+    
+    <g transform="translate(130, 190)">
+      <rect x="-100" y="0" width="200" height="70" rx="10" fill="#1a2832" stroke="#71D3DC" stroke-width="1"/>
+      <text x="0" y="25" class="item-text" style="fill: #71D3DC;">Supplier Consolidation</text>
+      <text x="0" y="45" class="item-desc">15% procurement savings</text>
+      <text x="0" y="60" class="item-desc">$750K-$1.5M value</text>
+    </g>
+    
+    <g transform="translate(130, 280)">
+      <rect x="-100" y="0" width="200" height="70" rx="10" fill="#1a2832" stroke="#71D3DC" stroke-width="1"/>
+      <text x="0" y="25" class="item-text" style="fill: #71D3DC;">Compliance Speed</text>
+      <text x="0" y="45" class="item-desc">50% faster audits</text>
+      <text x="0" y="60" class="item-desc">$100K-$200K avoided</text>
+    </g>
+    
+    <g transform="translate(130, 370)">
+      <rect x="-100" y="0" width="200" height="70" rx="10" fill="#1a2832" stroke="#FF9F36" stroke-width="1"/>
+      <text x="0" y="25" class="item-text" style="fill: #FF9F36;">Risk Visibility</text>
+      <text x="0" y="45" class="item-desc">Single-source exposure</text>
+      <text x="0" y="60" class="item-desc">Proactive mitigation</text>
+    </g>
+  </g>
+  
+  <!-- Bottom Bar -->
+  <g transform="translate(60, 630)">
+    <rect x="0" y="0" width="1080" height="40" rx="10" fill="#11567F"/>
+    <text x="540" y="26" text-anchor="middle" font-family="Inter" font-size="14" font-weight="600" fill="#FFFFFF">
+      All data stays in Snowflake | Zero data movement | Enterprise security &amp; governance
+    </text>
+  </g>
+</svg>
