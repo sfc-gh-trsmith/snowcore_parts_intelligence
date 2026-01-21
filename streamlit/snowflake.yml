@@ -1,0 +1,14 @@
+definition_version: 2
+entities:
+  upip_app:
+    type: streamlit
+    identifier:
+      name: UPIP_APP
+    main_file: streamlit_app.py
+    query_warehouse: SNOWCORE_PARTS_INTELLIGENCE_WH
+    pages_dir: pages/
+    artifacts:
+      - streamlit_app.py
+      - environment.yml
+      - pages/
+      - utils/

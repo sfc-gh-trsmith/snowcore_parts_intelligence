@@ -1,0 +1,11 @@
+name: upip_streamlit
+channels:
+  - snowflake
+dependencies:
+  - streamlit
+  - pandas
+  - plotly
+  - altair
+  - pydeck
+  - networkx
+  - snowflake-snowpark-python

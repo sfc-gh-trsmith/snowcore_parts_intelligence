@@ -1,0 +1,762 @@
+name: upip_semantic_model
+description: |
+  Semantic model for UPIP Cortex Analyst queries.
+  Supports VP (strategic), Procurement Manager (operational), and R&D Engineer (technical) personas.
+
+tables:
+  # ============================================================
+  # PARTS_ANALYTICS: Core part and supplier analytics
+  # ============================================================
+  - name: parts_analytics
+    description: Part, supplier, and inventory analytics view with risk and procurement metrics.
+    base_table:
+      database: SNOWCORE_PARTS_INTELLIGENCE
+      schema: DATA_SCIENCE
+      table: PARTS_ANALYTICS
+    primary_key:
+      columns: [GLOBAL_ID]
+
+    dimensions:
+      - name: global_id
+        synonyms: ["part id", "part number", "id"]
+        description: Unique part identifier across all systems
+        expr: GLOBAL_ID
+        data_type: TEXT
+
+      - name: part_name
+        synonyms: ["name", "part"]
+        description: Human-readable part name
+        expr: PART_NAME
+        data_type: TEXT
+
+      - name: business_unit
+        synonyms: ["division", "BU", "segment"]
+        description: Industrial or Bio-Tech division
+        expr: BUSINESS_UNIT
+        data_type: TEXT
+        sample_values: ["Industrial", "Bio-Tech"]
+
+      - name: material_type
+        synonyms: ["material", "composition"]
+        description: Part material (Stainless Steel, Aluminum, Titanium, Polymer)
+        expr: MATERIAL
+        data_type: TEXT
+        sample_values: ["Stainless Steel", "Aluminum", "Titanium", "Polymer"]
+
+      - name: supplier_region
+        synonyms: ["region", "geography", "location"]
+        description: Geographic region of supplier (NA, EU, APAC)
+        expr: SUPPLIER_REGION
+        data_type: TEXT
+        sample_values: ["NA", "EU", "APAC"]
+
+      - name: compliance_status
+        synonyms: ["compliance", "regulatory status", "FDA status"]
+        description: Regulatory compliance status
+        expr: COMPLIANCE_STATUS
+        data_type: TEXT
+        sample_values: ["FDA Approved", "Pending", "Not Required"]
+
+      - name: is_duplicate
+        synonyms: ["duplicate", "has equivalent"]
+        description: Flag indicating part has functional equivalents
+        expr: IS_DUPLICATE
+        data_type: BOOLEAN
+
+      - name: part_category
+        synonyms: ["category", "type", "product type"]
+        description: Product category
+        expr: PART_CATEGORY
+        data_type: TEXT
+        sample_values: ["Valve", "Motor", "Fastener", "Actuator", "Sensor", "Pump"]
+
+      - name: supplier_tier
+        synonyms: ["tier", "supplier classification", "vendor tier"]
+        description: Supplier classification
+        expr: SUPPLIER_TIER
+        data_type: TEXT
+        sample_values: ["Preferred", "Approved", "Conditional"]
+
+      - name: supplier_name
+        synonyms: ["supplier", "vendor", "vendor name"]
+        description: Name of the supplier
+        expr: SUPPLIER_NAME
+        data_type: TEXT
+
+      - name: supplier_id
+        synonyms: ["vendor id"]
+        description: Supplier identifier
+        expr: SUPPLIER_ID
+        data_type: TEXT
+
+    facts:
+      - name: total_spend
+        synonyms: ["spend", "procurement spend"]
+        description: Total procurement spend with supplier
+        expr: TOTAL_SPEND
+        data_type: NUMBER
+
+      - name: inventory_quantity
+        synonyms: ["quantity", "stock", "units on hand"]
+        description: Units currently in inventory
+        expr: INVENTORY_QUANTITY
+        data_type: NUMBER
+
+      - name: inventory_value
+        synonyms: ["stock value", "inventory dollars"]
+        description: Dollar value of inventory holdings
+        expr: INVENTORY_VALUE
+        data_type: NUMBER
+
+      - name: unit_cost
+        synonyms: ["cost", "price", "unit price"]
+        description: Cost per unit
+        expr: UNIT_COST
+        data_type: NUMBER
+
+      - name: supplier_lead_time
+        synonyms: ["lead time", "delivery days"]
+        description: Average days from order to delivery
+        expr: SUPPLIER_LEAD_TIME
+        data_type: NUMBER
+
+      - name: benchmark_cost
+        synonyms: ["should cost", "target cost", "benchmark"]
+        description: Should-cost reference for variance analysis
+        expr: BENCHMARK_COST
+        data_type: NUMBER
+
+      - name: cost_variance_pct
+        synonyms: ["variance", "markup", "price variance", "cost variance"]
+        description: Percentage deviation from should-cost benchmark
+        expr: COST_VARIANCE_PCT
+        data_type: NUMBER
+
+      - name: composite_risk
+        synonyms: ["risk score", "supplier risk"]
+        description: Overall supplier risk score (0-1, lower is better)
+        expr: COMPOSITE_RISK
+        data_type: NUMBER
+
+      - name: supply_continuity
+        synonyms: ["continuity", "reliability"]
+        description: Supply reliability score (0-1, higher is better)
+        expr: SUPPLY_CONTINUITY
+        data_type: NUMBER
+
+    metrics:
+      - name: total_inventory_value
+        synonyms: ["sum inventory value", "total stock value"]
+        description: Total dollar value of inventory
+        expr: SUM(parts_analytics.inventory_value)
+
+      - name: total_inventory_quantity
+        synonyms: ["total units", "total stock"]
+        description: Total units in inventory
+        expr: SUM(parts_analytics.inventory_quantity)
+
+      - name: total_procurement_spend
+        synonyms: ["total spend", "sum spend"]
+        description: Total procurement spend across all suppliers
+        expr: SUM(parts_analytics.total_spend)
+
+      - name: avg_unit_cost
+        synonyms: ["average cost", "mean cost"]
+        description: Average cost per unit
+        expr: AVG(parts_analytics.unit_cost)
+
+      - name: avg_lead_time
+        synonyms: ["average lead time", "mean lead time"]
+        description: Average supplier lead time in days
+        expr: AVG(parts_analytics.supplier_lead_time)
+
+      - name: avg_cost_variance
+        synonyms: ["average markup", "mean variance"]
+        description: Average cost variance from benchmark
+        expr: AVG(parts_analytics.cost_variance_pct)
+
+      - name: part_count
+        synonyms: ["number of parts", "count"]
+        description: Count of parts
+        expr: COUNT(DISTINCT parts_analytics.global_id)
+
+      - name: avg_risk_score
+        synonyms: ["average risk", "mean risk"]
+        description: Average composite risk score
+        expr: AVG(parts_analytics.composite_risk)
+
+    filters:
+      - name: high_markup_parts
+        synonyms: ["overpriced", "above benchmark"]
+        description: Parts with cost above benchmark
+        expr: COST_VARIANCE_PCT > 0
+
+      - name: preferred_suppliers
+        synonyms: ["preferred vendors"]
+        description: Parts from preferred tier suppliers
+        expr: SUPPLIER_TIER = 'Preferred'
+
+      - name: fda_approved
+        synonyms: ["FDA compliant", "regulated"]
+        description: FDA approved parts only
+        expr: COMPLIANCE_STATUS LIKE '%FDA%'
+
+  # ============================================================
+  # PURCHASE_ORDERS: Procurement cycle and maverick spend
+  # ============================================================
+  - name: purchase_orders
+    description: Purchase order data for procurement cycle and maverick spend analysis.
+    base_table:
+      database: SNOWCORE_PARTS_INTELLIGENCE
+      schema: DATA_SCIENCE
+      table: PURCHASE_ORDERS_ANALYTICS
+    primary_key:
+      columns: [PO_ID]
+
+    dimensions:
+      - name: po_id
+        description: Purchase order identifier
+        expr: PO_ID
+        data_type: TEXT
+
+      - name: po_status
+        synonyms: ["order status", "status"]
+        description: Order status (draft, approved, received)
+        expr: PO_STATUS
+        data_type: TEXT
+        sample_values: ["draft", "approved", "received"]
+
+      - name: is_maverick
+        synonyms: ["maverick", "off contract", "non-compliant"]
+        description: True if purchase was made outside approved contracts
+        expr: IS_MAVERICK
+        data_type: BOOLEAN
+
+      - name: supplier_id
+        synonyms: ["vendor id"]
+        description: Supplier identifier
+        expr: SUPPLIER_ID
+        data_type: TEXT
+
+      - name: supplier_name
+        synonyms: ["supplier", "vendor"]
+        description: Supplier name
+        expr: SUPPLIER_NAME
+        data_type: TEXT
+
+      - name: supplier_tier
+        synonyms: ["tier", "vendor tier"]
+        description: Supplier classification
+        expr: SUPPLIER_TIER
+        data_type: TEXT
+        sample_values: ["Preferred", "Approved", "Conditional"]
+
+      - name: part_name
+        synonyms: ["part", "item"]
+        description: Part name
+        expr: PART_NAME
+        data_type: TEXT
+
+      - name: part_category
+        synonyms: ["category", "type"]
+        description: Part category
+        expr: PART_CATEGORY
+        data_type: TEXT
+
+      - name: business_unit
+        synonyms: ["division", "BU"]
+        description: Business unit
+        expr: BUSINESS_UNIT
+        data_type: TEXT
+
+    time_dimensions:
+      - name: created_at
+        synonyms: ["order date", "created date", "PO date"]
+        description: Date the purchase order was created
+        expr: CREATED_AT
+        data_type: TIMESTAMP
+
+      - name: approved_at
+        synonyms: ["approval date"]
+        description: Date the purchase order was approved
+        expr: APPROVED_AT
+        data_type: TIMESTAMP
+
+      - name: received_at
+        synonyms: ["receipt date", "delivery date"]
+        description: Date the order was received
+        expr: RECEIVED_AT
+        data_type: TIMESTAMP
+
+    facts:
+      - name: total_amount
+        synonyms: ["PO amount", "order value", "order amount"]
+        description: Total purchase order value
+        expr: TOTAL_AMOUNT
+        data_type: NUMBER
+
+      - name: quantity
+        synonyms: ["units", "qty"]
+        description: Quantity ordered
+        expr: QUANTITY
+        data_type: NUMBER
+
+      - name: unit_price
+        synonyms: ["price", "cost per unit"]
+        description: Price per unit
+        expr: UNIT_PRICE
+        data_type: NUMBER
+
+      - name: benchmark_cost
+        synonyms: ["should cost", "target price"]
+        description: Benchmark cost for comparison
+        expr: BENCHMARK_COST
+        data_type: NUMBER
+
+      - name: price_variance_pct
+        synonyms: ["variance", "markup", "price markup"]
+        description: Price variance from benchmark percentage
+        expr: PRICE_VARIANCE_PCT
+        data_type: NUMBER
+
+      - name: total_cycle_days
+        synonyms: ["cycle time", "lead time"]
+        description: Days from PO creation to receipt
+        expr: TOTAL_CYCLE_DAYS
+        data_type: NUMBER
+
+    metrics:
+      - name: total_po_amount
+        synonyms: ["total spend", "sum PO value"]
+        description: Total purchase order value
+        expr: SUM(purchase_orders.total_amount)
+
+      - name: maverick_spend
+        synonyms: ["off contract spend", "non-compliant spend"]
+        description: Spend on off-contract purchases
+        expr: SUM(CASE WHEN purchase_orders.is_maverick THEN purchase_orders.total_amount ELSE 0 END)
+
+      - name: compliant_spend
+        synonyms: ["on contract spend"]
+        description: Spend on compliant purchases
+        expr: SUM(CASE WHEN NOT purchase_orders.is_maverick THEN purchase_orders.total_amount ELSE 0 END)
+
+      - name: maverick_pct
+        synonyms: ["maverick percentage", "off contract percentage"]
+        description: Percentage of spend that is maverick
+        expr: SUM(CASE WHEN purchase_orders.is_maverick THEN purchase_orders.total_amount ELSE 0 END) / NULLIF(SUM(purchase_orders.total_amount), 0) * 100
+
+      - name: order_count
+        synonyms: ["number of orders", "PO count"]
+        description: Number of purchase orders
+        expr: COUNT(DISTINCT purchase_orders.po_id)
+
+      - name: avg_cycle_days
+        synonyms: ["average cycle time", "mean lead time"]
+        description: Average days from PO creation to receipt
+        expr: AVG(purchase_orders.total_cycle_days)
+
+      - name: avg_price_variance
+        synonyms: ["average markup", "mean variance"]
+        description: Average price variance from benchmark
+        expr: AVG(purchase_orders.price_variance_pct)
+
+    filters:
+      - name: maverick_only
+        synonyms: ["off contract only"]
+        description: Only maverick/off-contract purchases
+        expr: IS_MAVERICK = TRUE
+
+      - name: received_orders
+        synonyms: ["completed orders"]
+        description: Only received/completed orders
+        expr: PO_STATUS = 'received'
+
+  # ============================================================
+  # SUPPLIER_RISK: Risk scores for strategic sourcing
+  # ============================================================
+  - name: supplier_risk
+    description: Supplier risk scores for strategic sourcing decisions.
+    base_table:
+      database: SNOWCORE_PARTS_INTELLIGENCE
+      schema: DATA_SCIENCE
+      table: SUPPLIER_RISK_SCORES
+    primary_key:
+      columns: [SUPPLIER_ID]
+
+    dimensions:
+      - name: supplier_id
+        synonyms: ["vendor id"]
+        description: Supplier identifier
+        expr: SUPPLIER_ID
+        data_type: TEXT
+
+    facts:
+      - name: composite_risk
+        synonyms: ["overall risk", "total risk", "risk score"]
+        description: Overall risk score (0-1, lower is better)
+        expr: COMPOSITE_RISK
+        data_type: NUMBER
+
+      - name: financial_risk
+        synonyms: ["financial stability risk"]
+        description: Financial stability risk score
+        expr: FINANCIAL_RISK
+        data_type: NUMBER
+
+      - name: delivery_risk
+        synonyms: ["on time delivery risk", "OTD risk"]
+        description: On-time delivery risk score
+        expr: DELIVERY_RISK
+        data_type: NUMBER
+
+      - name: quality_risk
+        synonyms: ["product quality risk"]
+        description: Product quality risk score
+        expr: QUALITY_RISK
+        data_type: NUMBER
+
+      - name: supply_continuity
+        synonyms: ["reliability", "continuity score"]
+        description: Supply reliability score (0-1, higher is better)
+        expr: SUPPLY_CONTINUITY
+        data_type: NUMBER
+
+    metrics:
+      - name: avg_composite_risk
+        synonyms: ["average risk"]
+        description: Average composite risk score
+        expr: AVG(supplier_risk.composite_risk)
+
+      - name: avg_supply_continuity
+        synonyms: ["average continuity"]
+        description: Average supply continuity score
+        expr: AVG(supplier_risk.supply_continuity)
+
+      - name: high_risk_supplier_count
+        description: Count of high-risk suppliers (risk > 0.6)
+        expr: COUNT(CASE WHEN supplier_risk.composite_risk > 0.6 THEN 1 END)
+
+    filters:
+      - name: high_risk
+        synonyms: ["risky suppliers"]
+        description: Suppliers with high composite risk
+        expr: COMPOSITE_RISK > 0.6
+
+      - name: low_risk
+        synonyms: ["safe suppliers"]
+        description: Suppliers with low composite risk
+        expr: COMPOSITE_RISK < 0.3
+
+  # ============================================================
+  # CONSOLIDATION_SCENARIOS: VP strategic planning
+  # ============================================================
+  - name: consolidation_scenarios
+    description: Supplier consolidation scenarios for VP strategic planning.
+    base_table:
+      database: SNOWCORE_PARTS_INTELLIGENCE
+      schema: DATA_SCIENCE
+      table: CONSOLIDATION_SCENARIOS
+    primary_key:
+      columns: [SCENARIO_ID]
+
+    dimensions:
+      - name: scenario_id
+        synonyms: ["consolidation id", "initiative id"]
+        description: Scenario identifier
+        expr: SCENARIO_ID
+        data_type: TEXT
+
+      - name: scenario_name
+        synonyms: ["name", "initiative name", "consolidation name"]
+        description: Name of consolidation initiative
+        expr: SCENARIO_NAME
+        data_type: TEXT
+
+      - name: status
+        synonyms: ["scenario status", "initiative status"]
+        description: Scenario status
+        expr: STATUS
+        data_type: TEXT
+        sample_values: ["proposed", "approved", "in_progress", "completed"]
+
+      - name: target_supplier_id
+        synonyms: ["target vendor", "consolidation target"]
+        description: Supplier to consolidate toward
+        expr: TARGET_SUPPLIER_ID
+        data_type: TEXT
+
+    facts:
+      - name: projected_savings
+        synonyms: ["savings", "expected savings", "cost savings"]
+        description: Expected annual savings from consolidation
+        expr: PROJECTED_SAVINGS
+        data_type: NUMBER
+
+      - name: implementation_cost
+        synonyms: ["cost", "investment", "one-time cost"]
+        description: One-time cost to implement consolidation
+        expr: IMPLEMENTATION_COST
+        data_type: NUMBER
+
+      - name: roi_pct
+        synonyms: ["ROI", "return on investment"]
+        description: Return on investment percentage
+        expr: ROI_PCT
+        data_type: NUMBER
+
+      - name: parts_affected
+        synonyms: ["impacted parts", "part count"]
+        description: Number of parts impacted by consolidation
+        expr: PARTS_AFFECTED
+        data_type: NUMBER
+
+    metrics:
+      - name: total_projected_savings
+        synonyms: ["total savings", "sum savings"]
+        description: Total projected savings across all scenarios
+        expr: SUM(consolidation_scenarios.projected_savings)
+
+      - name: total_implementation_cost
+        synonyms: ["total cost", "sum cost"]
+        description: Total implementation cost across all scenarios
+        expr: SUM(consolidation_scenarios.implementation_cost)
+
+      - name: avg_roi
+        synonyms: ["average ROI", "mean ROI"]
+        description: Average return on investment
+        expr: AVG(consolidation_scenarios.roi_pct)
+
+      - name: total_parts_affected
+        synonyms: ["total parts impacted"]
+        description: Total parts affected by consolidation
+        expr: SUM(consolidation_scenarios.parts_affected)
+
+      - name: scenario_count
+        synonyms: ["number of scenarios", "initiative count"]
+        description: Count of consolidation scenarios
+        expr: COUNT(DISTINCT consolidation_scenarios.scenario_id)
+
+    filters:
+      - name: approved_scenarios
+        synonyms: ["approved initiatives"]
+        description: Only approved scenarios
+        expr: STATUS = 'approved'
+
+      - name: active_scenarios
+        synonyms: ["in progress", "active initiatives"]
+        description: Scenarios currently in progress
+        expr: STATUS IN ('approved', 'in_progress')
+
+  # ============================================================
+  # PART_REUSE: Engineering reuse tracking
+  # ============================================================
+  - name: part_reuse
+    description: Engineering part reuse tracking for R&D metrics.
+    base_table:
+      database: SNOWCORE_PARTS_INTELLIGENCE
+      schema: DATA_SCIENCE
+      table: PART_REUSE_EVENTS
+    primary_key:
+      columns: [EVENT_ID]
+
+    dimensions:
+      - name: event_id
+        description: Reuse event identifier
+        expr: EVENT_ID
+        data_type: TEXT
+
+      - name: project_name
+        synonyms: ["project", "engineering project"]
+        description: Engineering project where part was reused
+        expr: PROJECT_NAME
+        data_type: TEXT
+
+      - name: part_global_id
+        synonyms: ["part id", "reused part"]
+        description: Reused part identifier
+        expr: PART_GLOBAL_ID
+        data_type: TEXT
+
+    time_dimensions:
+      - name: created_at
+        synonyms: ["date", "event date", "reuse date"]
+        description: Date the reuse event was recorded
+        expr: CREATED_AT
+        data_type: TIMESTAMP
+
+    facts:
+      - name: design_time_saved_hours
+        synonyms: ["hours saved", "time saved"]
+        description: Engineering hours saved through reuse
+        expr: DESIGN_TIME_SAVED_HOURS
+        data_type: NUMBER
+
+      - name: cost_avoided
+        synonyms: ["savings", "avoided cost"]
+        description: Costs avoided by not designing new parts
+        expr: COST_AVOIDED
+        data_type: NUMBER
+
+    metrics:
+      - name: total_design_time_saved
+        synonyms: ["total hours saved"]
+        description: Total engineering hours saved through reuse
+        expr: SUM(part_reuse.design_time_saved_hours)
+
+      - name: total_cost_avoided
+        synonyms: ["total savings", "sum avoided cost"]
+        description: Total costs avoided by reusing parts
+        expr: SUM(part_reuse.cost_avoided)
+
+      - name: reuse_count
+        synonyms: ["number of reuse events", "reuse events"]
+        description: Number of part reuse events
+        expr: COUNT(DISTINCT part_reuse.event_id)
+
+# ============================================================
+# RELATIONSHIPS
+# ============================================================
+relationships:
+  - name: parts_to_supplier_risk
+    left_table: parts_analytics
+    right_table: supplier_risk
+    relationship_columns:
+      - left_column: supplier_id
+        right_column: supplier_id
+
+  - name: purchase_orders_to_supplier_risk
+    left_table: purchase_orders
+    right_table: supplier_risk
+    relationship_columns:
+      - left_column: supplier_id
+        right_column: supplier_id
+
+# ============================================================
+# VERIFIED QUERIES
+# ============================================================
+verified_queries:
+  # VP - Strategic Questions
+  - name: total_projected_savings
+    question: "What is the total projected savings from consolidation?"
+    use_as_onboarding_question: true
+    verified_at: 1737417600
+    verified_by: "system"
+    sql: |
+      SELECT 
+        SUM(PROJECTED_SAVINGS) AS total_projected_savings,
+        COUNT(DISTINCT SCENARIO_ID) AS scenario_count,
+        AVG(ROI_PCT) AS avg_roi_pct
+      FROM __consolidation_scenarios
+      WHERE STATUS IN ('approved', 'in_progress')
+
+  - name: highest_risk_suppliers
+    question: "Which suppliers have the highest risk?"
+    use_as_onboarding_question: true
+    verified_at: 1737417600
+    verified_by: "system"
+    sql: |
+      SELECT 
+        pa.SUPPLIER_NAME,
+        pa.SUPPLIER_TIER,
+        sr.COMPOSITE_RISK,
+        sr.FINANCIAL_RISK,
+        sr.DELIVERY_RISK,
+        sr.QUALITY_RISK,
+        sr.SUPPLY_CONTINUITY
+      FROM __parts_analytics pa
+      JOIN __supplier_risk sr ON pa.SUPPLIER_ID = sr.SUPPLIER_ID
+      WHERE sr.COMPOSITE_RISK > 0.5
+      GROUP BY pa.SUPPLIER_NAME, pa.SUPPLIER_TIER, sr.COMPOSITE_RISK, 
+               sr.FINANCIAL_RISK, sr.DELIVERY_RISK, sr.QUALITY_RISK, sr.SUPPLY_CONTINUITY
+      ORDER BY sr.COMPOSITE_RISK DESC
+      LIMIT 10
+
+  # Procurement - Operational Questions
+  - name: current_maverick_spend
+    question: "What is our current maverick spend?"
+    use_as_onboarding_question: true
+    verified_at: 1737417600
+    verified_by: "system"
+    sql: |
+      SELECT 
+        SUM(CASE WHEN IS_MAVERICK THEN TOTAL_AMOUNT ELSE 0 END) AS maverick_spend,
+        SUM(TOTAL_AMOUNT) AS total_spend,
+        ROUND(SUM(CASE WHEN IS_MAVERICK THEN TOTAL_AMOUNT ELSE 0 END) / 
+              NULLIF(SUM(TOTAL_AMOUNT), 0) * 100, 1) AS maverick_pct
+      FROM __purchase_orders
+
+  - name: highest_markup_parts
+    question: "Which parts have the highest markup vs benchmark?"
+    use_as_onboarding_question: true
+    verified_at: 1737417600
+    verified_by: "system"
+    sql: |
+      SELECT 
+        GLOBAL_ID,
+        PART_NAME,
+        PART_CATEGORY,
+        SUPPLIER_NAME,
+        UNIT_COST,
+        BENCHMARK_COST,
+        COST_VARIANCE_PCT AS markup_pct
+      FROM __parts_analytics
+      WHERE COST_VARIANCE_PCT > 0
+      ORDER BY COST_VARIANCE_PCT DESC
+      LIMIT 20
+
+  - name: supplier_recommendations_valve
+    question: "Recommend suppliers for Valve category"
+    use_as_onboarding_question: true
+    verified_at: 1737417600
+    verified_by: "system"
+    sql: |
+      SELECT 
+        pa.SUPPLIER_NAME,
+        pa.SUPPLIER_TIER,
+        sr.COMPOSITE_RISK AS risk_score,
+        sr.SUPPLY_CONTINUITY AS continuity,
+        AVG(pa.UNIT_COST) AS avg_cost,
+        AVG(pa.SUPPLIER_LEAD_TIME) AS avg_lead_time,
+        COUNT(DISTINCT pa.GLOBAL_ID) AS part_count
+      FROM __parts_analytics pa
+      LEFT JOIN __supplier_risk sr ON pa.SUPPLIER_ID = sr.SUPPLIER_ID
+      WHERE pa.PART_CATEGORY = 'Valve'
+      GROUP BY pa.SUPPLIER_NAME, pa.SUPPLIER_TIER, sr.COMPOSITE_RISK, sr.SUPPLY_CONTINUITY
+      ORDER BY sr.COMPOSITE_RISK ASC, pa.SUPPLIER_TIER ASC
+      LIMIT 10
+
+  # Engineering Questions
+  - name: part_reuse_metrics
+    question: "What are our part reuse metrics?"
+    use_as_onboarding_question: true
+    verified_at: 1737417600
+    verified_by: "system"
+    sql: |
+      SELECT 
+        COUNT(DISTINCT EVENT_ID) AS reuse_events,
+        SUM(DESIGN_TIME_SAVED_HOURS) AS total_hours_saved,
+        SUM(COST_AVOIDED) AS total_cost_avoided
+      FROM __part_reuse
+
+# ============================================================
+# CUSTOM INSTRUCTIONS
+# ============================================================
+custom_instructions: |
+  This semantic model serves three personas:
+  
+  1. **VP/Executive (Strategic)**: Focus on consolidation scenarios, total savings projections, 
+     risk exposure, and cross-BU synergies. Use business-level language.
+  
+  2. **Procurement Manager (Operational)**: Focus on maverick spend, price variances, 
+     supplier performance, and contract compliance. Include specific dollar amounts.
+  
+  3. **R&D Engineer (Technical)**: Focus on part reuse, compliance status (FDA/ISO), 
+     material specifications, and technical equivalents.
+  
+  When answering questions:
+  - Always include currency (USD) for monetary values
+  - For risk scores, lower is better (0-1 scale)
+  - For continuity scores, higher is better (0-1 scale)
+  - Maverick spend means off-contract/non-compliant purchases
+  - Benchmark cost is the "should cost" target for variance analysis

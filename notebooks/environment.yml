@@ -1,0 +1,9 @@
+name: upip_notebook
+channels:
+  - snowflake
+dependencies:
+  - python=3.11
+  - snowflake-snowpark-python
+  - pandas
+  - numpy
+  - matplotlib

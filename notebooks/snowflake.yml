@@ -1,0 +1,11 @@
+definition_version: 2
+entities:
+  part_similarity_notebook:
+    type: notebook
+    identifier:
+      name: PART_SIMILARITY_NOTEBOOK
+    notebook_file: part_similarity.ipynb
+    query_warehouse: SNOWCORE_PARTS_INTELLIGENCE_WH
+    artifacts:
+      - environment.yml
+      - part_similarity.ipynb

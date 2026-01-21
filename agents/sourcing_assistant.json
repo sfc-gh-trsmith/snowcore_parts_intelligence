@@ -1,0 +1,22 @@
+{
+  "name": "Sourcing Assistant",
+  "description": "Orchestrates Analyst, Search, and retooling cost estimation for sourcing decisions.",
+  "tools": [
+    {
+      "type": "analyst",
+      "name": "cortex_analyst",
+      "semantic_model": "semantic_views/upip_semantic_model.yaml"
+    },
+    {
+      "type": "search",
+      "name": "cortex_search",
+      "service": "ENGINEERING_DOCS_SEARCH"
+    },
+    {
+      "type": "function",
+      "name": "calculate_retooling_cost",
+      "handler": "DATA_SCIENCE.CALCULATE_RETOOLING_COST"
+    }
+  ],
+  "instructions": "Use Analyst for structured spend/inventory questions, Search for compliance and technical docs, and the cost function when comparing supplier switches."
+}

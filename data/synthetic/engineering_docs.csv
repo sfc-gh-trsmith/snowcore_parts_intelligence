@@ -1,0 +1,5 @@
+DOC_ID,PART_FAMILY,REGULATORY_STANDARD,DOC_TEXT,SOURCE_URI
+DOC001,Valve,ISO 13485,Valve assemblies must meet ISO 13485 traceability and include lot-level material certification and sterilization verification.,docs/iso_13485_valves.md
+DOC002,Actuator,21 CFR Part 11,"Actuator compliance requires audit trails for firmware updates, electronic signatures, and verification of access controls for calibration routines.",docs/21cfr_part11_actuators.md
+DOC003,Motor,ISO 9001,Motor assemblies must document torque testing procedures and retain calibration records for five years in accordance with ISO 9001.,docs/iso_9001_motors.md
+DOC004,Valve,ISO 14971,"Risk management files shall document valve failure modes, hazard analysis, and mitigation steps per ISO 14971.",docs/iso_14971_valves.md

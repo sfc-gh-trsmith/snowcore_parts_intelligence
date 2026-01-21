@@ -1,0 +1,135 @@
+-- Base analytics views for Cortex Analyst semantic model
+-- Supports VP, Procurement Manager, and R&D Engineer personas
+
+USE DATABASE IDENTIFIER($DATABASE_NAME);
+
+-- ============================================================
+-- PARTS_ANALYTICS: Core part and supplier analytics
+-- ============================================================
+CREATE OR REPLACE VIEW DATA_SCIENCE.PARTS_ANALYTICS AS
+SELECT
+    p.GLOBAL_ID,
+    p.LOCAL_ID,
+    p.SOURCE_SYSTEM,
+    p.PART_NAME,
+    p.PART_DESCRIPTION,
+    p.MATERIAL,
+    p.WEIGHT,
+    p.COST AS UNIT_COST,
+    p.SUPPLIER_ID,
+    p.BUSINESS_UNIT,
+    p.INVENTORY_QUANTITY,
+    p.INVENTORY_VALUE,
+    p.COMPLIANCE_STATUS,
+    p.IS_DUPLICATE,
+    p.PART_CATEGORY,
+    p.BENCHMARK_COST,
+    -- Cost variance calculation
+    CASE 
+        WHEN p.BENCHMARK_COST > 0 
+        THEN ROUND((p.COST - p.BENCHMARK_COST) / p.BENCHMARK_COST * 100, 2)
+        ELSE 0 
+    END AS COST_VARIANCE_PCT,
+    s.SUPPLIER_NAME,
+    s.SUPPLIER_REGION,
+    s.AVG_LEAD_TIME_DAYS AS SUPPLIER_LEAD_TIME,
+    s.TOTAL_SPEND,
+    s.SUPPLIER_TIER,
+    s.QUALITY_CERTIFICATION,
+    s.CONTRACT_END_DATE,
+    -- Risk data joined from risk scores table
+    COALESCE(r.COMPOSITE_RISK, 0.5) AS COMPOSITE_RISK,
+    COALESCE(r.SUPPLY_CONTINUITY, 0.5) AS SUPPLY_CONTINUITY
+FROM ATOMIC.PART_MASTER p
+LEFT JOIN ATOMIC.SUPPLIER_MASTER s
+    ON p.SUPPLIER_ID = s.SUPPLIER_ID
+LEFT JOIN DATA_SCIENCE.SUPPLIER_RISK_SCORES r
+    ON p.SUPPLIER_ID = r.SUPPLIER_ID;
+
+-- ============================================================
+-- PURCHASE_ORDERS_ANALYTICS: PO data with supplier context
+-- ============================================================
+CREATE OR REPLACE VIEW DATA_SCIENCE.PURCHASE_ORDERS_ANALYTICS AS
+SELECT
+    po.PO_ID,
+    po.PART_GLOBAL_ID,
+    po.SUPPLIER_ID,
+    po.QUANTITY,
+    po.UNIT_PRICE,
+    po.TOTAL_AMOUNT,
+    po.PO_STATUS,
+    po.CREATED_AT,
+    po.APPROVED_AT,
+    po.RECEIVED_AT,
+    po.IS_MAVERICK,
+    -- Cycle time calculations
+    CASE 
+        WHEN po.APPROVED_AT IS NOT NULL 
+        THEN DATEDIFF(day, po.CREATED_AT, po.APPROVED_AT)
+        ELSE NULL 
+    END AS APPROVAL_DAYS,
+    CASE 
+        WHEN po.RECEIVED_AT IS NOT NULL 
+        THEN DATEDIFF(day, po.CREATED_AT, po.RECEIVED_AT)
+        ELSE NULL 
+    END AS TOTAL_CYCLE_DAYS,
+    -- Supplier context
+    s.SUPPLIER_NAME,
+    s.SUPPLIER_REGION,
+    s.SUPPLIER_TIER,
+    s.PREFERRED_FLAG,
+    -- Part context
+    p.PART_NAME,
+    p.PART_CATEGORY,
+    p.BUSINESS_UNIT,
+    p.BENCHMARK_COST,
+    -- Price variance from benchmark
+    CASE 
+        WHEN p.BENCHMARK_COST > 0 
+        THEN ROUND((po.UNIT_PRICE - p.BENCHMARK_COST) / p.BENCHMARK_COST * 100, 2)
+        ELSE 0 
+    END AS PRICE_VARIANCE_PCT
+FROM ATOMIC.PURCHASE_ORDERS po
+LEFT JOIN ATOMIC.SUPPLIER_MASTER s
+    ON po.SUPPLIER_ID = s.SUPPLIER_ID
+LEFT JOIN ATOMIC.PART_MASTER p
+    ON po.PART_GLOBAL_ID = p.GLOBAL_ID;
+
+-- ============================================================
+-- SUPPLIER_SCORECARD: Aggregated supplier performance metrics
+-- ============================================================
+CREATE OR REPLACE VIEW DATA_SCIENCE.SUPPLIER_SCORECARD AS
+SELECT
+    s.SUPPLIER_ID,
+    s.SUPPLIER_NAME,
+    s.SUPPLIER_REGION,
+    s.SUPPLIER_TIER,
+    s.RATING,
+    s.AVG_LEAD_TIME_DAYS,
+    s.PREFERRED_FLAG,
+    s.TOTAL_SPEND,
+    s.QUALITY_CERTIFICATION,
+    s.CONTRACT_END_DATE,
+    -- Risk scores
+    COALESCE(r.FINANCIAL_RISK, 0.5) AS FINANCIAL_RISK,
+    COALESCE(r.DELIVERY_RISK, 0.5) AS DELIVERY_RISK,
+    COALESCE(r.QUALITY_RISK, 0.5) AS QUALITY_RISK,
+    COALESCE(r.COMPOSITE_RISK, 0.5) AS COMPOSITE_RISK,
+    COALESCE(r.SUPPLY_CONTINUITY, 0.5) AS SUPPLY_CONTINUITY,
+    -- Part counts
+    COUNT(DISTINCT p.GLOBAL_ID) AS PART_COUNT,
+    SUM(p.INVENTORY_VALUE) AS TOTAL_INVENTORY_VALUE,
+    -- Compliance metrics
+    SUM(CASE WHEN p.COMPLIANCE_STATUS LIKE '%FDA%' THEN 1 ELSE 0 END) AS FDA_COMPLIANT_PARTS,
+    -- Duplicate exposure
+    SUM(CASE WHEN p.IS_DUPLICATE THEN 1 ELSE 0 END) AS DUPLICATE_PARTS
+FROM ATOMIC.SUPPLIER_MASTER s
+LEFT JOIN DATA_SCIENCE.SUPPLIER_RISK_SCORES r
+    ON s.SUPPLIER_ID = r.SUPPLIER_ID
+LEFT JOIN ATOMIC.PART_MASTER p
+    ON s.SUPPLIER_ID = p.SUPPLIER_ID
+GROUP BY
+    s.SUPPLIER_ID, s.SUPPLIER_NAME, s.SUPPLIER_REGION, s.SUPPLIER_TIER,
+    s.RATING, s.AVG_LEAD_TIME_DAYS, s.PREFERRED_FLAG, s.TOTAL_SPEND,
+    s.QUALITY_CERTIFICATION, s.CONTRACT_END_DATE,
+    r.FINANCIAL_RISK, r.DELIVERY_RISK, r.QUALITY_RISK, r.COMPOSITE_RISK, r.SUPPLY_CONTINUITY;
